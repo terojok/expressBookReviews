@@ -47,9 +47,20 @@ regd_users.post("/login", function(req, res) {
 });
 
 // Add a book review
-regd_users.put("/auth/review/:isbn", (req, res) => {
-    //Write your code here
-    return res.status(300).json({message: "Yet to be implemented"});
+regd_users.put("/auth/review/:isbn", function (req, res) {
+    const book = books[req.params.isbn];
+    if (book) {
+        const review = req.body.review;
+        if (typeof review !== 'string') {
+            res.status(400).json( { message: "Missing or invalid book review" } );
+            return;
+        }
+
+        book.reviews[req.user] = review;
+        res.json( { message: "Book review successfully added" } );
+    } else {
+        res.status(404).json( { message: "Book not found" } );
+    }
 });
 
 module.exports.authenticated = regd_users;
