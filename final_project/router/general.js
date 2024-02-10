@@ -77,7 +77,7 @@ public_users.get('/review/:isbn', function (req, res) {
     if (book) {
         res.send(JSON.stringify(book.reviews, null, 4));
     } else {
-        res.status(404).json( { message: "Not found" } );
+        res.status(404).json( { message: "Book not found" } );
     }
 });
 
