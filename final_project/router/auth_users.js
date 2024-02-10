@@ -63,6 +63,17 @@ regd_users.put("/auth/review/:isbn", function (req, res) {
     }
 });
 
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", function (req, res) {
+    const book = books[req.params.isbn];
+    if (book) {
+        delete book.reviews[req.user];
+        res.json( { message: "Book review successfully deleted" } );
+    } else {
+        res.status(404).json( { message: "Book not found" } );
+    }
+});
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
